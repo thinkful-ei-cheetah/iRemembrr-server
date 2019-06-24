@@ -30,7 +30,7 @@ VALUES
   (5, 1, 'jak se máš', 'how are you', 6),
   (6, 1, 'pupík', 'bellybutton', 7),
   (7, 1, 'pivo', 'beer', 8),
-  (8, 1, 'káva', 'coffee', 9);
+  (8, 1, 'káva', 'coffee', 9),
   (9, 1, 'kočka', 'cat', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
