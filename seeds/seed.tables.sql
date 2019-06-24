@@ -1,5 +1,7 @@
 BEGIN;
 
+SET CLIENT_ENCODING TO 'utf8';
+
 TRUNCATE
   "word",
   "language",
@@ -25,11 +27,11 @@ VALUES
   (2, 1, 'dobré ráno', 'good morning', 3),
   (3, 1, 'dobrou noc', 'good night', 4),
   (4, 1, 'ahoj', 'hi', 5),
-  -- (5, 1, 'jak se máš', 'how are you', 6),
-  (5, 1, 'pupík', 'bellybutton', 6),
-  (6, 1, 'pivo', 'beer', 7),
-  (7, 1, 'káva', 'coffee', null);
-  -- (9, 1, 'kočka', 'cat', null);
+  (5, 1, 'jak se máš', 'how are you', 6),
+  (6, 1, 'pupík', 'bellybutton', 7),
+  (7, 1, 'pivo', 'beer', 8),
+  (8, 1, 'káva', 'coffee', 9);
+  (9, 1, 'kočka', 'cat', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 
