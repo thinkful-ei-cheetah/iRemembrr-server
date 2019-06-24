@@ -54,12 +54,13 @@ languageRouter
         req.app.get('db'),
         req.language.id,
       )
- 
+        // NOT DONE NEED TO FIGURE OUT HOW TO GO THROUGH LIST BETTER. 
       const head = {
-        nextWord: `original ${language.head}`,
+        nextWord: words[0].original, // MAKE SURE TO LOOK AT WORDS
+        wordCorrectCount: words[language.head - 1].correct_count,
+        wordIncorrectCount: words[language.head -1].correct_count,
         totalScore: language.total_score,
-        wordCorrectCount: words.correct_count,
-        wordIncorrectCount: words.incorrect_count, 
+ 
       }
      
       res
