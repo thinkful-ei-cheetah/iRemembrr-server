@@ -88,7 +88,7 @@ languageRouter
 languageRouter
   .post('/guess', async (req, res, next) => {
     try {
-      const guess = req.body;
+      const {guess} = req.body;
       console.log(guess);
 
       const language = await LanguageService.getUsersLanguage(
@@ -99,34 +99,21 @@ languageRouter
         req.app.get('db'),
         req.language.id,
       )
-
-      let wordList = new LL();
-      let m = 1;
-
-      for(let i = 0; i < words.length; i++){
-        wordList.insertLast(words[i].original);
-        if(guess === words[i].translation){
-          m = m * 2
-        }else{
-          m = 1;
-        }
-      }
-      
-      
-      wordList.find(words[0]);
-
-      const head = {
-        answer: words[m].translation,
+    
+      let isTrue = false;
+    
+      const mold = {
+        answer: words[0].translation,
         isCorrect: isTrue,
-        nextWord: words[m].original,
+        nextWord: words[0].original,
         totalScore: language.total_score,
-        wordCorrectCount: words[m].correct_count,
-        wordIncorrectCount: words[m].incorrect_count,
+        wordCorrectCount: words[0].correct_count,
+        wordIncorrectCount: words[0].incorrect_count,
       }
  
       res
         .status(200)
-        .json(head)
+        .json(mold)
         .send();
 
       next();
