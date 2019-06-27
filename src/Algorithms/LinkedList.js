@@ -26,7 +26,6 @@ class LinkedList {
     }
   }
 
-
   // had to look this one up. 
   insertItemAt(item, index) {
     if (this.head === null) {
