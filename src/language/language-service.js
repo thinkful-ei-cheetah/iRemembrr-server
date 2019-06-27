@@ -28,6 +28,7 @@ const LanguageService = {
       )
       .where({ language_id })
   },
+
 }
 
 module.exports = LanguageService
