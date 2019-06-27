@@ -26,8 +26,6 @@ class LinkedList {
     }
   }
 
-
-  // had to look this one up. 
   insertItemAt(item, index) {
     if (this.head === null) {
       this.insertFirst(item);
@@ -81,7 +79,6 @@ class LinkedList {
     if (!this.head) {
       return null;
     }
-
     if (this.head.value === item) {
       this.head = this.head.next;
       return;
@@ -102,17 +99,4 @@ class LinkedList {
   }
 }
 
-function main() {
-  let list = new LinkedList();
-
-  list.insertLast('1st');
-  list.insertLast('3rd');
-  list.insertLast('4th');
-
-  list.insertItemAt('2nd', 1);
-
-  return list.find('3rd');
-}
-
-console.log(main());
 module.exports = LinkedList;

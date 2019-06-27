@@ -10,6 +10,7 @@ const languageRouter = require('./language/language-router');
 const userRouter = require('./user/user-router');
 
 const app = express();
+app.use(express.json());
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test',

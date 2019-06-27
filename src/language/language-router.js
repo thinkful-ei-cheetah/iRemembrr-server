@@ -1,7 +1,7 @@
 const express = require('express')
 const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
-const LL = require('../Algorithms/LinkedList');
+const { fillLinkedList, answerTrue, moveHead } = require('./language-LL-service')
 
 const languageRouter = express.Router()
 
@@ -55,30 +55,17 @@ languageRouter
         req.app.get('db'),
         req.language.id,
       )
+
       let head = {
         nextWord: words[0].original,
         wordCorrectCount: words[0].correct_count,
         wordIncorrectCount: words[0].correct_count,
         totalScore: language.total_score,
       }
-      // needs to choose from the current word. 
-      // for(let i=0; i< words.length; i++){
-      //   if(words[i-1].id === words.word.id){
-      //     head = {
-      //       nextWord: words[i].original, 
-      //       wordCorrectCount: words[i - 1].correct_count,
-      //       wordIncorrectCount: words[i - 1].correct_count,
-      //       totalScore: language.total_score,
-      //     }
-      //   }
-      // }
 
       res
         .status(200)
         .json(head)
-        .send()
-
-      next()
 
     } catch (error) {
       next(error)
@@ -87,9 +74,8 @@ languageRouter
 
 languageRouter
   .post('/guess', async (req, res, next) => {
+    let guess = req.body.guess;
     try {
-      const {guess} = req.body;
-      console.log(guess);
 
       const language = await LanguageService.getUsersLanguage(
         req.app.get('db'),
@@ -99,29 +85,61 @@ languageRouter
         req.app.get('db'),
         req.language.id,
       )
-    
-      let isTrue = false;
-    
-      const mold = {
-        answer: words[0].translation,
-        isCorrect: isTrue,
-        nextWord: words[0].original,
-        totalScore: language.total_score,
-        wordCorrectCount: words[0].correct_count,
-        wordIncorrectCount: words[0].incorrect_count,
+
+      let list = fillLinkedList(words);
+      let m = 1;
+      let isTrue = answerTrue(list, guess);
+      if (isTrue = true) {
+        m = m * 2;
+      }else {
+        m = 1
       }
- 
+      moveHead(list, m)
+      let db = req.app.get('db')
+
+      db.transaction(trx => {
+        let current = list.getAt(0)
+        const queries = [];
+        while (current.next !== null) {
+          current = current.next;
+          const query = db('word')
+            .where('id', current.value.id)
+            .update({
+              original: current.value.original,
+              translation: current.value.translation,
+              next: current.value.next,
+              memory_value: current.value.memory_value,
+              correct_count: current.value.correct_count,
+              incorrect_count: current.value.incorrect_count,
+            })
+            .transacting(trx);
+          queries.push(query);
+        }
+        Promise.all(queries)
+          .then(trx.commit)
+          .catch(trx.rollback)
+      })
+     
+
+      let word = list.getAt(0).value;
+
+      const response = {
+        answer: word.translation,
+        isCorrect: isTrue,
+        nextWord: word.original,
+        totalScore: language.total_score,
+        wordCorrectCount: word.correct_count,
+        wordIncorrectCount: word.incorrect_count,
+      }
+
       res
         .status(200)
-        .json(mold)
-        .send();
+        .json(response)
 
-      next();
 
     } catch (error) {
       next(error)
     }
-
   })
 
 module.exports = languageRouter;
