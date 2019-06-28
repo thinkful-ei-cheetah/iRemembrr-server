@@ -96,6 +96,8 @@ languageRouter
       let totalScore = language.total_score;
       if (isTrue === true) {
         totalScore = totalScore + 1;
+      }else {
+        totalScore = totalScore - 1;
       }
 
       await db('language')
@@ -103,7 +105,6 @@ languageRouter
         .update({
           total_score: totalScore
         })
-
 
         db.transaction(trx => {
           let current = list.getAt(0)
