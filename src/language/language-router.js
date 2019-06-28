@@ -76,7 +76,7 @@ languageRouter
   .post('/guess', async (req, res, next) => {
     let guess = req.body.guess;
     try {
-      if(!guess){
+      if (!guess) {
         res.status(400)
         next()
       }
@@ -94,43 +94,40 @@ languageRouter
       let list = fillLinkedList(words);
       let isTrue = answerTrue(list, guess);
       let totalScore = language.total_score;
-      if(isTrue === true){
+      if (isTrue === true) {
         totalScore = totalScore + 1;
       }
 
-      // await LanguageService.getUsersLanguage(
-      //   db
-      //     .from('language')
-      //     .where(id)
-      //     .update({
-      //         total_score: totalScore
-      //     }),
-      //   req.user.id,
-      // )
+      await db('language')
+        .where('id', language.id)
+        .update({
+          total_score: totalScore
+        })
 
-      db.transaction(trx => {
-        let current = list.getAt(0)
-        const queries = [];
-        while (current.next !== null) {
-          current = current.next;
-          const query = db('word')
-            .where('id', current.value.id)
-            .update({
-              original: current.value.original,
-              translation: current.value.translation,
-              next: current.value.next,
-              memory_value: current.value.memory_value,
-              correct_count: current.value.correct_count,
-              incorrect_count: current.value.incorrect_count,
-            })
-            .transacting(trx);
-          queries.push(query);
-        }
-        Promise.all(queries)
-          .then(trx.commit)
-          .catch(trx.rollback)
-      })
-     
+
+        db.transaction(trx => {
+          let current = list.getAt(0)
+          const queries = [];
+          while (current.next !== null) {
+            current = current.next;
+            const query = db('word')
+              .where('id', current.value.id)
+              .update({
+                original: current.value.original,
+                translation: current.value.translation,
+                next: current.value.next,
+                memory_value: current.value.memory_value,
+                correct_count: current.value.correct_count,
+                incorrect_count: current.value.incorrect_count,
+              })
+              .transacting(trx);
+            queries.push(query);
+          }
+          Promise.all(queries)
+            .then(trx.commit)
+            .catch(trx.rollback)
+        })
+
 
       let word = list.getAt(0).value;
       console.log(word)
@@ -144,8 +141,8 @@ languageRouter
       }
 
       let m = list.getAt(0).value.memory_value;
-      if(m > words.length){
-        m = words.length -1;
+      if (m > words.length) {
+        m = words.length - 1;
       }
       moveHead(list, m);
 
