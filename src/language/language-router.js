@@ -76,6 +76,10 @@ languageRouter
   .post('/guess', async (req, res, next) => {
     let guess = req.body.guess;
     try {
+      if(!guess){
+        res.status(400)
+        next()
+      }
 
       const language = await LanguageService.getUsersLanguage(
         req.app.get('db'),
@@ -87,14 +91,11 @@ languageRouter
       )
 
       let list = fillLinkedList(words);
-      let m = 1;
       let isTrue = answerTrue(list, guess);
-      if (isTrue = true) {
-        m = m * 2;
-      }else {
-        m = 1
-      }
-      moveHead(list, m)
+      
+      let m = list.getAt(0).value.memory_value;
+      
+     
       let db = req.app.get('db')
 
       db.transaction(trx => {
@@ -122,15 +123,17 @@ languageRouter
      
 
       let word = list.getAt(0).value;
+      let nextWord = list.getAt(1).value
 
       const response = {
         answer: word.translation,
         isCorrect: isTrue,
-        nextWord: word.original,
+        nextWord: nextWord.original,
         totalScore: language.total_score,
-        wordCorrectCount: word.correct_count,
-        wordIncorrectCount: word.incorrect_count,
+        wordCorrectCount: nextWord.correct_count,
+        wordIncorrectCount: nextWord.incorrect_count,
       }
+      moveHead(list, m);
 
       res
         .status(200)
