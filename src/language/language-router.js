@@ -99,12 +99,14 @@ languageRouter
       }
       console.log(totalScore);
 
-      // await LanguageService.updateTotalScore(
-      //   db,
+      // await LanguageService.getUsersLanguage(
+      //   db
+      //     .from('language')
+      //     .where(id)
+      //     .update({
+      //         total_score: totalScore
+      //     }),
       //   req.user.id,
-      //   {
-      //     total_score: totalScore
-      //   }
       // )
 
       db.transaction(trx => {
@@ -132,18 +134,20 @@ languageRouter
      
 
       let word = list.getAt(0).value;
-      let nextWord = list.getAt(1).value
-
+      console.log(word)
       const response = {
         answer: word.translation,
         isCorrect: isTrue,
-        nextWord: nextWord.original,
+        nextWord: word.next,
         totalScore: language.total_score,
-        wordCorrectCount: nextWord.correct_count,
-        wordIncorrectCount: nextWord.incorrect_count,
+        wordCorrectCount: word.correct_count,
+        wordIncorrectCount: word.incorrect_count,
       }
 
       let m = list.getAt(0).value.memory_value;
+      if(m > 9){
+        m = 8;
+      }
       moveHead(list, m);
 
       res
