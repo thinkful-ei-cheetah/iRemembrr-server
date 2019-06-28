@@ -59,7 +59,7 @@ languageRouter
       let head = {
         nextWord: words[0].original,
         wordCorrectCount: words[0].correct_count,
-        wordIncorrectCount: words[0].correct_count,
+        wordIncorrectCount: words[0].incorrect_count,
         totalScore: language.total_score,
       }
 
