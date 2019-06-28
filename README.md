@@ -1,74 +1,10 @@
-# iRemembrr API
+# Spaced Repetition Capstone - Server
 
-## Tech Stack
-* Express
-* knex
-* cors
-* helmet
-* bcrypt
-* jsonWebToken
+## Proccess
+  uses a linked list to create a spaced repitition learning program for 9 Czech words. By moving the current word back 1 space when you get it wrong and several spaces back when you get it right. It will iteratie through the words and keep track of your score.
 
-## Testing
-* Mocha
-* nodemon
+## Team 
+Adam Pavlicek 
 
-## Production
-* Deployed via Heroku
-
-## Team
-Adam Pavlicek - Back-End Algorithms-Linkd-List, Language-router / service, User-router / service, Testing 
-
-Mike Jung - Back-End Algorithms-Linked-List, Language-router / service, User-router / service 
-
-## Local dev setup
-
-If using user `dunder-mifflin`:
-
-```bash
-mv example.env .env
-createdb -U dunder-mifflin spaced-repetition
-createdb -U dunder-mifflin spaced-repetition-test
-```
-
-If your `dunder-mifflin` user has a password be sure to set it in `.env` for all appropriate fields. Or if using a different user, update appropriately.
-
-```bash
-npm install
-npm run migrate
-env MIGRATION_DB_NAME=spaced-repetition-test npm run migrate
-```
-
-And `npm test` should work at this point
-
-## Configuring Postgres
-
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
-
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-   3. E.g  on Ubuntu 18.04 probably: '/etc/postgresql/10/main/postgresql.conf'
-2. Find the `timezone` line and set it to `UTC`:
-
-```conf
-# - Locale and Formatting -
-
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
-
-## Scripts
-
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests mode `npm test`
-
-Run the migrations up `npm run migrate`
-
-Run the migrations down `npm run migrate -- 0`
-```
+Mike Jung
 

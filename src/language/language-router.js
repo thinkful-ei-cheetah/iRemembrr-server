@@ -131,7 +131,6 @@ languageRouter
 
 
       let word = list.getAt(0).value;
-      console.log(word)
       const response = {
         answer: word.translation,
         isCorrect: isTrue,
