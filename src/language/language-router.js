@@ -80,23 +80,32 @@ languageRouter
         res.status(400)
         next()
       }
+      let db = req.app.get('db');
 
       const language = await LanguageService.getUsersLanguage(
-        req.app.get('db'),
+        db,
         req.user.id,
       )
       const words = await LanguageService.getLanguageWords(
-        req.app.get('db'),
+        db,
         req.language.id,
       )
 
       let list = fillLinkedList(words);
       let isTrue = answerTrue(list, guess);
-      
-      let m = list.getAt(0).value.memory_value;
-      
-     
-      let db = req.app.get('db')
+      let totalScore = language.total_score;
+      if(isTrue === true){
+        totalScore = totalScore + 1;
+      }
+      console.log(totalScore);
+
+      // await LanguageService.updateTotalScore(
+      //   db,
+      //   req.user.id,
+      //   {
+      //     total_score: totalScore
+      //   }
+      // )
 
       db.transaction(trx => {
         let current = list.getAt(0)
@@ -133,6 +142,8 @@ languageRouter
         wordCorrectCount: nextWord.correct_count,
         wordIncorrectCount: nextWord.incorrect_count,
       }
+
+      let m = list.getAt(0).value.memory_value;
       moveHead(list, m);
 
       res

@@ -10,8 +10,6 @@ function fillLinkedList(words) {
 function answerTrue(list, guess) {
   let item = list.getAt(0).value;
   let m = item.memory_value;
-  console.log(item.correct_count);
-  console.log(item.incorrect_count);
   if (guess === item.translation) {
     item.correct_count++;
     item.memory_value = m * 2;

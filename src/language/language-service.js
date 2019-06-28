@@ -29,6 +29,15 @@ const LanguageService = {
       .where({ language_id })
   },
 
+  updateTotalScore(db, id, update){
+    return db
+      .from ('language')
+      .where(id)
+      .update({
+        total_score: update.total_score
+      })
+  }
+
 }
 
 module.exports = LanguageService
