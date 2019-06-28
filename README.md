@@ -1,4 +1,24 @@
-# Spaced repetition API!
+# iRemembrr API
+
+## Tech Stack
+* Express
+* knex
+* cors
+* helmet
+* bcrypt
+* jsonWebToken
+
+## Testing
+* Mocha
+* nodemon
+
+## Production
+* Deployed via Heroku
+
+## Team
+Adam Pavlicek - Back-End Algorithms-Linkd-List, Language-router / service, User-router / service, Testing 
+
+Mike Jung - Back-End Algorithms-Linked-List, Language-router / service, User-router / service 
 
 ## Local dev setup
 
@@ -50,3 +70,5 @@ Run the tests mode `npm test`
 Run the migrations up `npm run migrate`
 
 Run the migrations down `npm run migrate -- 0`
+```
+
