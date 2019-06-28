@@ -9,7 +9,6 @@ function fillLinkedList(words) {
 
 function answerTrue(list, guess) {
   let item = list.getAt(0).value;
-  console.log(item.memory_value);
   if (guess === item.translation) {
     item.correct_count++;
     item.memory_value = item.memory_value + item.memory_value;
@@ -25,7 +24,7 @@ function moveHead(list, index){
   let item = list.getAt(0).value;
   
   list.remove(item);
-  
+
   list.insertItemAt(item, index);
 }
 

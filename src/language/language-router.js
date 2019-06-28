@@ -97,7 +97,6 @@ languageRouter
       if(isTrue === true){
         totalScore = totalScore + 1;
       }
-      console.log(totalScore);
 
       // await LanguageService.getUsersLanguage(
       //   db
@@ -145,8 +144,8 @@ languageRouter
       }
 
       let m = list.getAt(0).value.memory_value;
-      if(m > 9){
-        m = 8;
+      if(m > words.length){
+        m = words.length -1;
       }
       moveHead(list, m);
 
